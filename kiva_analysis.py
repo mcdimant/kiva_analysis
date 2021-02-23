@@ -5,35 +5,38 @@ import pandas as pd
 import numpy as np
 import datetime
 import boto3
+from matplotlib import pyplot as plt
+from matplotlib.dates import DateFormatter, date2num
 
 
 s3 = boto3.client('s3')
 bucket = 'kiva-data'
 file_name = 'loans.csv'
 
-#reads in 10,000 row subset of dataframe
+#reads in 10k-row subset of dataframe
 obj = s3.get_object(Bucket= bucket, Key= file_name) 
 test_df = pd.read_csv(obj['Body'], nrows=10000) 
 
+#first pass high level EDA
 loan.columns
 loan.info()
 loan.describe()
 
-#subset of loans for dealing with Jordan
-jl = loan[loan['COUNTRY_NAME'] == 'Jordan']
 
-#clean up 
-
-#converting string representations of time to datetime objects
-sample_time = jl['POSTED_TIME']
-a = sample_time[115]
-converted = datetime.datetime.strptime(a, '%Y-%m-%d %H:%M:%S.%f +0000')
-print(type(converted))
-
-#alternatively 
-jl['posted_date'] = pd.to_datetime(jl['POSTED_TIME'])
-
+#converting string representations of time to Datetime objects
 loan['posted_datetime'] = pd.to_datetime(loan['POSTED_TIME'])
+loan['raised_datetime'] = pd.to_datetime(loan['RAISED_TIME'])
+
+loan['loan_speed'] = loan['raised_datetime']-loan['posted_datetime']
+loan['loan_speed'].describe()
+
+#represents time to raising loan in number of days (for matplotlib)
+loan['loanspeed_days'] = loan['loan_speed'] / pd.Timedelta(hours=24)
+
+fig, ax = plt.subplots()
+ax.scatter(loan['loanspeed_days'],loan['LOAN_AMOUNT'], alpha=.5)
+
+plt.show()
 
 #function to stop EC2 instance at end of script 
 def stop_EC2_instance(instance_id, region='us-west-2'):
