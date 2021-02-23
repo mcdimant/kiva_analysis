@@ -33,10 +33,25 @@ loan['loan_speed'].describe()
 #represents time to raising loan in number of days (for matplotlib)
 loan['loanspeed_days'] = loan['loan_speed'] / pd.Timedelta(hours=24)
 
+
+
+#graphs
+
+#loan_amount vs. loanspeed
 fig, ax = plt.subplots()
 ax.scatter(loan['loanspeed_days'],loan['LOAN_AMOUNT'], alpha=.5)
-
 plt.show()
+
+#Mean fulfillment speed of loan amounts, sized by n of loan amounts
+loan_mean = loan.groupby(['LOAN_AMOUNT'])['loanspeed_days'].mean()
+loan_count = loan.groupby(['LOAN_AMOUNT'])['LOAN_AMOUNT'].count()
+#loan_count
+#grouped.index
+fig, ax = plt.subplots(figsize=(13,7))
+ax.scatter(loan_mean.index, loan_mean, s=loan_count, alpha=.5)
+ax.set_xlabel('Loan Amount')
+ax.set_ylabel('Average # of Days to Raise Loan')
+ax.set_title('Scatterplot of Average # of Days to Raise Loan by Loan Size, Sized by Number of Loans')
 
 #function to stop EC2 instance at end of script 
 def stop_EC2_instance(instance_id, region='us-west-2'):
