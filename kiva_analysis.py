@@ -7,7 +7,7 @@ import datetime
 import boto3
 from matplotlib import pyplot as plt
 from matplotlib.dates import DateFormatter, date2num
-
+import seaborn as sns
 
 s3 = boto3.client('s3')
 bucket = 'kiva-data'
@@ -52,6 +52,19 @@ ax.scatter(loan_mean.index, loan_mean, s=loan_count, alpha=.5)
 ax.set_xlabel('Loan Amount')
 ax.set_ylabel('Average # of Days to Raise Loan')
 ax.set_title('Scatterplot of Average # of Days to Raise Loan by Loan Size, Sized by Number of Loans')
+
+
+#Uses Seaborn to make violin plot of loanspeed by gender and sector
+#First needed to clean gender column of non-binary values 
+loan_gclean = loan[(loan['BORROWER_GENDERS'] == 'male') | (loan['BORROWER_GENDERS'] =='female')] 
+
+fig, ax = plt.subplots(figsize=(14,8))
+sns.set_theme(style="whitegrid")
+ax = sns.violinplot(x='SECTOR_NAME', y="loanspeed_days",
+                    hue="BORROWER_GENDERS", data=loan_gclean, palette="muted", split=True
+                   )
+plt.xticks(rotation=45)
+plt.tight_layout()
 
 #function to stop EC2 instance at end of script 
 def stop_EC2_instance(instance_id, region='us-west-2'):
