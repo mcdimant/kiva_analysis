@@ -18,22 +18,30 @@ obj = s3.get_object(Bucket= bucket, Key= file_name)
 test_df = pd.read_csv(obj['Body'], nrows=10000) 
 
 #first pass high level EDA
-loan.columns
-loan.info()
-loan.describe()
+#loan.columns
+#loan.info()
+#loan.describe()
 
+#Clean up:
 
 #converting string representations of time to Datetime objects
 loan['posted_datetime'] = pd.to_datetime(loan['POSTED_TIME'])
 loan['raised_datetime'] = pd.to_datetime(loan['RAISED_TIME'])
 
 loan['loan_speed'] = loan['raised_datetime']-loan['posted_datetime']
-loan['loan_speed'].describe()
+#loan['loan_speed'].describe()
 
 #represents time to raising loan in number of days (for matplotlib)
 loan['loanspeed_days'] = loan['loan_speed'] / pd.Timedelta(hours=24)
 
+#Function for counting number of borrowers from number of entries in gender column 
+def count_borrowers(lst):
+    if type(lst) != float:
+        return len(lst.split(','))
+    else:
+        return 1
 
+loan['borrower_n'] = loan['BORROWER_GENDERS'].apply(count_borrowers)
 
 #graphs
 
