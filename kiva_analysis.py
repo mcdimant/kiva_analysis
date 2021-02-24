@@ -8,6 +8,7 @@ import boto3
 from matplotlib import pyplot as plt
 from matplotlib.dates import DateFormatter, date2num
 import seaborn as sns
+import scipy.stats as stats
 
 s3 = boto3.client('s3')
 bucket = 'kiva-data'
@@ -47,11 +48,44 @@ def count_borrowers(lst):
 
 loan['borrower_n'] = loan['BORROWER_GENDERS'].apply(count_borrowers)
 
+#Slices only for "funded" loans, not refunded
+loan = loan[loan['STATUS'] == 'Funded']
 
 #reads in csv of purchasing power parity values from world bank
 ppp = pd.read_csv('world_bank_PPP.csv', skiprows=4)
 
+#merges purchasing power data on country_name but only pulls in last few years of ppp data
+loan.merge(how='inner', on='COUNTRY_NAME', right=ppp[['COUNTRY_NAME', '2019', '2018',
+                                                     '2017', '2015']])
 
+
+def latest_ppp(country):
+    latest_year = 2019
+    while loan.at[loan.index(loan[''])]
+
+
+#analysis:
+
+#gender
+loanspeed_m = loan['loanspeed_days'][loan['BORROWER_GENDERS']=='male']
+loanspeed_f = loan['loanspeed_days'][loan['BORROWER_GENDERS']=='female']
+
+mx = np.mean(loanspeed_m)
+mf = np.mean(loanspeed_f)
+
+stats.ttest_ind(loanspeed_m, loanspeed_f, alternative='two-sided')
+
+#geography
+#Loops through loanspeeds of all countries and compares them against global average
+for x in set(loan['COUNTRY_NAME']):
+    if stats.ttest_ind(loan['loanspeed_days'][loan['COUNTRY_NAME']==x], loan['loanspeed_days'],
+                       alternative='two-sided')[1] < .05:
+        
+        print("Loans in {country}, average of {mean} days to raise loan".format(country=x,
+                                                            mean=np.mean(loan['loanspeed_days']
+                                                                         [loan['COUNTRY_NAME']==x])))
+    else:
+        None
 
 #graphs:
 
@@ -63,7 +97,9 @@ plt.show()
 #Mean fulfillment speed of loan amounts, sized by n of loan amounts
 loan_mean = loan.groupby(['LOAN_AMOUNT'])['loanspeed_days'].mean()
 loan_count = loan.groupby(['LOAN_AMOUNT'])['LOAN_AMOUNT'].count()
+
 #loan_count
+
 #grouped.index
 fig, ax = plt.subplots(figsize=(13,7))
 ax.scatter(loan_mean.index, loan_mean, s=loan_count, alpha=.5)
