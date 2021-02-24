@@ -17,6 +17,21 @@ file_name = 'loans.csv'
 obj = s3.get_object(Bucket= bucket, Key= file_name) 
 test_df = pd.read_csv(obj['Body'], nrows=10000) 
 
+#reads in csv of purchasing power parity values from world bank
+ppp = pd.read_csv('world_bank_PPP.csv', skiprows=4)
+
+#returns dataframe of country names and latest PPP value
+def latest_ppp(df):
+    holder = {}
+    latest_year = 2019
+    for c in df['Country Name']:
+        while np.isnan(df.at[df.index[df['Country Name']==c][0], str(latest_year)]):
+                latest_year = latest_year-1
+        holder[c] = df.at[df.index[df['Country Name']==c][0], str(latest_year)]
+    
+    return holder
+
+
 #first pass high level EDA
 #loan.columns
 #loan.info()
@@ -43,7 +58,7 @@ def count_borrowers(lst):
 
 loan['borrower_n'] = loan['BORROWER_GENDERS'].apply(count_borrowers)
 
-#graphs
+#graphs:
 
 #loan_amount vs. loanspeed
 fig, ax = plt.subplots()
