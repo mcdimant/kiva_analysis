@@ -7,10 +7,4 @@ This project uses exploratory data analysis (EDA) to understand what factors imp
 
 
 ## Data Sourcing and Cleaning
-The data comes from ...
-
-=======
-# kiva_analysis
-
-An exploratory data analysis (EDA) project on microfinance data from Kiva, one of the largest and oldest microfinance institutions in the world. 
->>>>>>> 03681e8ae78ab8efb87b4b52f272a0e1d60d9b68
+The data comes from a place! 
