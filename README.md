@@ -6,5 +6,5 @@ This project uses exploratory data analysis (EDA) to understand what factors imp
 
 
 ## Data Sourcing and Cleaning
-The data comes from 
+The data comes from ...
 
