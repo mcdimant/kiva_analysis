@@ -9,6 +9,7 @@ from matplotlib import pyplot as plt
 from matplotlib.dates import DateFormatter, date2num
 import seaborn as sns
 import scipy.stats as stats
+import difflib
 
 s3 = boto3.client('s3')
 bucket = 'kiva-data'
