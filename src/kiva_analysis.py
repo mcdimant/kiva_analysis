@@ -113,7 +113,15 @@ loanspeed_f = loan['loanspeed_days'][loan['BORROWER_GENDERS']=='female']
 mx = np.mean(loanspeed_m)
 mf = np.mean(loanspeed_f)
 
-stats.ttest_ind(loanspeed_m, loanspeed_f, alternative='two-sided')
+fig, ax = plt.subplots(figsize=(14,9))
+ax.hist(loanspeed_m, bins=30, alpha=.5, label='Days to raise loan, male')
+ax.hist(loanspeed_f, bins=30, alpha=.5, label='Days to raise loan, female')
+ax.legend(loc='upper right')
+ax.set_xlabel('Days to Raise Loan')
+ax.set_ylabel('Number of Loans')
+ax.set_title('Histogram for Number of Days to Raise Loan, for male and female samples')
+
+stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 
 #geography
 #Loops through loanspeeds of all countries and compares them against all other global countries
