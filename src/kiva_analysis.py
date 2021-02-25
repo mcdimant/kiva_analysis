@@ -127,7 +127,7 @@ ax.set_title('Histogram for Number of Days to Raise Loan, for male and female sa
 
 stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 
-plt.savefig('../images/gender_histogram.png')
+plt.savefig('../images/gender_histogram_aws.png')
 
 
 #geography
@@ -177,6 +177,7 @@ ax.set_xlabel('Loan Amount')
 ax.set_ylabel('Average # of Days to Raise Loan')
 ax.set_title('Scatterplot of Average # of Days to Raise Loan by Loan Size, Sized by Number of Loans')
 
+plt.savefig('../images/scatterplot_aws.png')
 
 #Uses Seaborn to make violin plot of loanspeed by gender and sector
 #First needed to clean gender column of non-binary values 
@@ -189,6 +190,8 @@ ax = sns.violinplot(x='SECTOR_NAME', y="loanspeed_days",
                    )
 plt.xticks(rotation=45)
 plt.tight_layout()
+
+plt.savefig('../violin_plot.png')
 
 #function to stop EC2 instance at end of script 
 #def stop_EC2_instance(instance_id, region='us-west-2'):
