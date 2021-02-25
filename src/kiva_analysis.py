@@ -16,7 +16,10 @@ file_name = 'loans.csv'
 
 #reads in 10k-row subset of dataframe
 obj = s3.get_object(Bucket= bucket, Key=file_name) 
-test_df = pd.read_csv(obj['Body'], nrows=10000) 
+loan = pd.read_csv(obj['Body']) 
+
+print('Loaded full data succesfully!')
+
 
 #first pass high level EDA
 #loan.columns
@@ -123,6 +126,9 @@ ax.set_title('Histogram for Number of Days to Raise Loan, for male and female sa
 
 stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 
+plt.savefig('../images/gender_histogram.png')
+
+
 #geography
 #Loops through loanspeeds of all countries and compares them against all other global countries
 
@@ -154,7 +160,7 @@ for x in set(loan['SECTOR_NAME']):
 
 #loan_amount vs. loanspeed
 fig, ax = plt.subplots()
-ax.scatter(loan['loanspeed_days'],loan['LOAN_AMOUNT'], alpha=.5)
+ax.scatter(loan['loanspeed_days'],loan['ppp_val'], alpha=.5)
 plt.show()
 
 #Mean fulfillment speed of loan amounts, sized by n of loan amounts
@@ -184,6 +190,6 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 
 #function to stop EC2 instance at end of script 
-def stop_EC2_instance(instance_id, region='us-west-2'):
-    ec2 = boto3.resource('ec2', region_name=region)
-    ec2.instances.filter(InstanceIds=[instance_id]).stop()
+#def stop_EC2_instance(instance_id, region='us-west-2'):
+#    ec2 = boto3.resource('ec2', region_name=region)
+#    ec2.instances.filter(InstanceIds=[instance_id]).stop()
