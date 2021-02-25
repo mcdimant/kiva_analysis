@@ -29,17 +29,18 @@ test_df = pd.read_csv(obj['Body'], nrows=10000)
 loan['posted_datetime'] = pd.to_datetime(loan['POSTED_TIME'])
 loan['raised_datetime'] = pd.to_datetime(loan['RAISED_TIME'])
 
+#creates loan_speed column as difference between raised and posted datetimes
 loan['loan_speed'] = loan['raised_datetime']-loan['posted_datetime']
-#loan['loan_speed'].describe()
 
 #represents time to raising loan in number of days (for matplotlib)
 loan['loanspeed_days'] = loan['loan_speed'] / pd.Timedelta(hours=24)
 
+#drops na values
+loan.dropna(subset=['raised_datetime'], inplace=True)
+
 #creates loan_year column 
 loan['loan_year'] = [loan['raised_datetime'][x].year for x in loan.index]
 
-
-#Function for counting number of borrowers from number of entries in gender column 
 def count_borrowers(lst):
     if type(lst) != float:
         return len(lst.split(','))
@@ -48,24 +49,60 @@ def count_borrowers(lst):
 
 loan['borrower_n'] = loan['BORROWER_GENDERS'].apply(count_borrowers)
 
-#Slices only for "funded" loans, not refunded
-loan = loan[loan['STATUS'] == 'Funded']
-
 #reads in csv of purchasing power parity values from world bank
-ppp = pd.read_csv('world_bank_PPP.csv', skiprows=4)
+#first four rows are skipped to avoid irrelevant metadata
+ppp = pd.read_csv('../data/world_bank_ppp.csv', skiprows=4, index_col='Country Name')
 
-#merges purchasing power data on country_name but only pulls in last few years of ppp data
-loan = loan.merge(how='inner', on='COUNTRY_NAME', right=ppp[['COUNTRY_NAME', '2006', '2007',
-                                                    '2008', '2009', '2010', '2011',
-                                                    '2012', '2013', '2014', '2015', '2016',
-                                                     '2017', '2018', '2019']])
+#Check for spelling difference between country names in loan data and county names in ppp data
+ppp.reset_index(inplace=True)
 
-#incomplete, but aims to get ppp value for (year, country)
-def get_ppp()
-    l_ppp = []  
-    for i,v in enumerate(loan['loan_year']):
-        l_ppp.append(loan.at[i,str(v)])
+#set all countries names to lower case 
+loan['COUNTRY_NAME'] = [c.lower() for c in loan['COUNTRY_NAME']]
+ppp['Country Name'] = [c.lower() for c in ppp['Country Name']]
 
+#returns list of countries that are not matches between the data sets
+for c in set(loan['COUNTRY_NAME']):
+    match_tup = (c, difflib.get_close_matches(c, ppp['Country Name'], cutoff=1))
+    if match_tup[1] == []:
+        print(match_tup[0])
+
+#Only 8 out of 82 countries are not matches. Most of the remaining difference are due to political
+#differences in naming, rather than failure to do a fuzzy match. 
+ppp = ppp.rename(index={'west bank and gaza':'palestine', 'congo, rep':'congo', 'myanmar ':'myanmar (burma)',
+'yemen, rep.':'yemen', 'lao pdr':'lao people''s democratic republic',
+'congo, dem. rep.':'the democratic republic of the congo', 'egypt arab rep.': 'egypt'})
+
+ppp.set_index('Country Name', inplace=True)
+ppp.index
+
+#creates list with country name and loan year from loan data
+holder = []
+for c,y in zip(loan['COUNTRY_NAME'], loan['loan_year']):
+    holder.append([c,y])
+
+#selects appropriate ppp values from ppp data for each country and loan_year
+#if loan year is not found, algorithm will search back up to 2 years for most recent ppp
+for i in range(len(holder)):
+    if holder[i][0] not in ppp.index:
+        holder[i].append(np.nan)
+    elif np.isnan(ppp.loc[holder[i][0], str(holder[i][1])]):
+        if (ppp.loc[holder[i][0], str(holder[i][1]-1)]):
+            holder[i].append(ppp.loc[holder[i][0], str(holder[i][1]-1)])
+        elif (ppp.loc[holder[i][0], str(holder[i][1]-2)]):
+            holder[i].append(ppp.loc[holder[i][0], str(holder[i][1]-2)])
+        else:    
+            holder[i].append(np.nan)
+    else:
+        holder[i].append(ppp.loc[holder[i][0],str(holder[i][1])])
+        
+#Creates ppp value in loan datafarme
+loan['ppp'] = [holder[c][2] for c in range(len(holder))]
+
+#drops na values 
+loan['ppp'].dropna(inplace=True)
+
+#creates ppp_val column as product of ppp and loan_amount
+loan['ppp_val'] = loan['ppp'] * loan['LOAN_AMOUNT']
 
 #analysis:
 
