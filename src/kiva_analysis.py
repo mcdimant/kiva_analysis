@@ -15,7 +15,7 @@ bucket = 'kiva-data'
 file_name = 'loans.csv'
 
 #reads in 10k-row subset of dataframe
-obj = s3.get_object(Bucket= bucket, Key= file_name) 
+obj = s3.get_object(Bucket= bucket, Key=file_name) 
 test_df = pd.read_csv(obj['Body'], nrows=10000) 
 
 #first pass high level EDA
@@ -76,9 +76,11 @@ mf = np.mean(loanspeed_f)
 stats.ttest_ind(loanspeed_m, loanspeed_f, alternative='two-sided')
 
 #geography
-#Loops through loanspeeds of all countries and compares them against global average
+#Loops through loanspeeds of all countries and compares them against all other global countries
+
 for x in set(loan['COUNTRY_NAME']):
-    if stats.ttest_ind(loan['loanspeed_days'][loan['COUNTRY_NAME']==x], loan['loanspeed_days'],
+    if stats.ttest_ind(loan['loanspeed_days'][loan['COUNTRY_NAME']==x], loan['loanspeed_days']
+                       [loan['COUNTRY_NAME']!=x],
                        alternative='two-sided')[1] < .05:
         
         print("Loans in {country}, average of {mean} days to raise loan".format(country=x,
@@ -86,6 +88,19 @@ for x in set(loan['COUNTRY_NAME']):
                                                                          [loan['COUNTRY_NAME']==x])))
     else:
         None
+
+#sector analysis
+for x in set(loan['SECTOR_NAME']):
+    if stats.ttest_ind(loan['loanspeed_days'][loan['SECTOR_NAME']==x], loan['loanspeed_days']
+                       [loan['loanspeed_days']!=x],
+                       alternative='two-sided')[1] < .05:
+        
+        print("Loans in {sector}, average of {mean} days to raise loan".format(sector=x,
+                                                            mean=np.mean(loan['loanspeed_days']
+                                                                         [loan['SECTOR_NAME']==x])))
+    else:
+        None
+
 
 #graphs:
 
