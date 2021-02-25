@@ -55,13 +55,16 @@ loan = loan[loan['STATUS'] == 'Funded']
 ppp = pd.read_csv('world_bank_PPP.csv', skiprows=4)
 
 #merges purchasing power data on country_name but only pulls in last few years of ppp data
-loan.merge(how='inner', on='COUNTRY_NAME', right=ppp[['COUNTRY_NAME', '2019', '2018',
-                                                     '2017', '2015']])
+loan = loan.merge(how='inner', on='COUNTRY_NAME', right=ppp[['COUNTRY_NAME', '2006', '2007',
+                                                    '2008', '2009', '2010', '2011',
+                                                    '2012', '2013', '2014', '2015', '2016',
+                                                     '2017', '2018', '2019']])
 
-
-def latest_ppp(country):
-    latest_year = 2019
-    while loan.at[loan.index(loan[''])]
+#incomplete, but aims to get ppp value for (year, country)
+def get_ppp()
+    l_ppp = []  
+    for i,v in enumerate(loan['loan_year']):
+        l_ppp.append(loan.at[i,str(v)])
 
 
 #analysis:
