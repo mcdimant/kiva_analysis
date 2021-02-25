@@ -31,4 +31,5 @@ Besides the removal of na values and changing string representations of time to 
 
 ## Data Analysis
 
-
+test of image
+![](images/scatterplot.png)
