@@ -182,7 +182,7 @@ print("P-value {p} is far below alpha level of .05, so we reject null hypo.".for
 #We use a Shapiro-Wilks test to do this 
 for c in set(loan['COUNTRY_NAME']):
     c_loan = loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days']
-    print(c, len(c_lean))
+    print(c, len(c_loan))
 
 #function to stop EC2 instance at end of script 
 #def stop_EC2_instance(instance_id, region='us-west-2'):
