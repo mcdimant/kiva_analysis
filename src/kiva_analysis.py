@@ -142,12 +142,13 @@ ax[0].hist(loan['loanspeed_days'], bins=200, label='histogram',)
 ax[0].set_title('Histogram of Amount of Time to Raise Loan (Days)')
 ax[0].set_xlabel('Days To Raise Loan')
 ax[0].set_ylabel('Frequency')
+ax[0].set_xbound(0,400)
 ax[1].boxplot(loan['loanspeed_days'], vert=False)
 ax[1].set_title('Box Plot for Amount of Time to Raise Loan')
 ax[1].set_xlabel('Days to Raise Loan')
 plt.tight_layout()
 plt.show()
-plt.savefig('../images/loan_histobox.png')
+plt.savefig('../images/loan_histobox1.png')
 
 
 #gender
@@ -167,7 +168,7 @@ ax.legend(loc='upper right')
 ax.set_xlabel('Days to Raise Loan')
 ax.set_ylabel('Number of Loans')
 ax.set_title('Histogram for Number of Days to Raise Loan, for male and female samples')
-plt.savefig('../images/gender_histobox_aws.png')
+plt.savefig('../images/gender_histobox_aws1.png')
 
 #A quick visual of the histogram for male and female loanspeed shows that neither
 #appears to be normally distributed, so a Mann-Whitney test is more appropriate 
