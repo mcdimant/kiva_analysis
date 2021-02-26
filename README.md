@@ -52,7 +52,7 @@ Therefore, to test the null hypothesis that gender has no bearing on the amount 
 
 ### Geography
 
-The full dataset includes 77 countries, so the analysis developed a function to automate the process. The null hypothesis is that geography, interpreted here at the country level, has no bearing on how quickly borrowers from a given country are able to raise loans, with the alternative hypothesis that borrowers from X country are faster or slower than all other countries in raising loans. Here is the process that the analysis took:
+The full dataset includes 97 countries, so the analysis developed a function to automate the process. The null hypothesis is that geography, interpreted here at the country level, has no bearing on how quickly borrowers from a given country are able to raise loans, with the alternative hypothesis that borrowers from X country are faster or slower than all other countries in raising loans. Here is the process that the analysis took:
 *   1. Was country's distribution large enough (minimum 100 records per country)? 
 *   2. Was country's distribution normal? (Used Shapiro-Wilks to test for this with an alpha of .01)
     * 2a. If normal, then proceed to independent T-test between Country X and data from all other countries
