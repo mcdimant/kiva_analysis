@@ -91,7 +91,7 @@ def ppp_clean(ppp):
 
 ppp_clean(ppp)
 
-def get_ppp_values(ppp, loan):
+def get_ppp_values(ppp, holder):
 
     ppp.set_index('Country Name', inplace=True)
 
