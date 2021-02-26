@@ -63,6 +63,9 @@ The full dataset includes 77 countries, so the analysis developed a function to 
 
 Iterating through the set of countries and some Pandas wrangling produces the following table showing size, alpha levels, normality, and significance for each country for the above hypotheses:
 
+![][data/significance_table_output.csv]
+
+
 
 
 
