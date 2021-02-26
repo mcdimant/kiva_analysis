@@ -61,6 +61,11 @@ The full dataset includes 77 countries, so the analysis developed a function to 
 
 Iterating through the set of countries and some Pandas wrangling produces the following table showing mean loan size, alpha levels, normality, p-values, and significance for each country for the above hypotheses:
 
+Given the frequency of "significant" results, several comments can be made:
+* For very large samples (many in this case where tens or hundreds of thousands of records), the Mann-Whitney test may be more sensitive to significance. 
+* Geography may actually be a significant factor in how quickly loans are raised. There are many potential interperations available - it could be that lender familiariaty with the country is largely a function of geography,
+or that geography serves as a kind of proxy for stereotypes or images in lender minds that impact willingness to fund a loan. 
+
 |id |country                             |mean days to raise loan|alpha_shapiro|alpha-ttest|alpha_mannwhitney|p value                |size_n           |normal    |significance  |
 |---|------------------------------------|-----------------------|-------------|-----------|-----------------|-----------------------|-----------------|----------|--------------|
 |0  |indonesia                           |8.93132690124573       |0.01         |0.01       |0.01             |1.1447355944210215e-290|Sufficient size  |Not normal|Significant   |
@@ -163,5 +168,9 @@ Iterating through the set of countries and some Pandas wrangling produces the fo
 |97 |albania                             |16.14120571436262      |0.01         |0.01       |0.01             |1.477478718224667e-129 |Sufficient size  |Not normal|Significant   |
 
 
+## Further Research
+Additional avenues of research include:
 
-
+* Stratifying country results by region to see if regional patterns tell a story 
+* Comparing country names to their prevalance in the media to test the theory that greater media mention of 'country X' promotes faster loan raising. "Prevalance in the media" could be gauged by data from Google Trends. 
+* Stratifying data by other factors, such as loan sector, attributes of the loan description, tags for the loan. 
