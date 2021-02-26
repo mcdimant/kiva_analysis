@@ -48,7 +48,7 @@ Here's an image, taken from a 10k row sub-sample of the full data set, plotting 
 ### Gender
 A brief look at the histogram for how long it took men vs women to raise their loan shows that: a) the distributions do not appear normal and b) the means appear quite different.  
 
-![](images/gender_histobox_aws.png)
+![](images/gender_histobox_aws1.png)
 
 Therefore, to test the null hypothesis that gender has no bearing on the amount of time it takes borrowers to raise a loan, I used a Mann-Whitney test, with an alpha level of .05, which returned a p-value of 4.326*10^-66 - so we can confidently reject the null hypothesis. As for interpretation, there may be many reasons why women appear to raise loans more quickly than men. It could be that the majority of donors are women, or that female borrowers, ipso facto, are seen as more personally sympathetic than male borrowers, or that female borrowers describe their loans differently than men in ways that are more engaging to borrowers. Many potential explanations are testable and fertile areas for further research. 
 
