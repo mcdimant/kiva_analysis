@@ -91,7 +91,7 @@ def ppp_clean(ppp):
 
 ppp_clean(ppp)
 
-def get_ppp_values(ppp, holder):
+def get_ppp_values(ppp, loan):
 
     ppp.set_index('Country Name', inplace=True)
 
@@ -117,7 +117,7 @@ def get_ppp_values(ppp, holder):
 
     return holder
 
-holder = get_ppp_values(ppp, holder)
+holder = get_ppp_values(ppp, loan)
 
 def add_ppp_values(loan, holder):
     #Creates ppp value in loan datafarme
