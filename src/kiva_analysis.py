@@ -192,6 +192,7 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
         if stats.shapiro(c_loan)[1] < a_shapiro:
             normal = 'Not normal'
             p_mw = stats.mannwhitneyu(c_loan, loan.loc[loan['COUNTRY_NAME']!=c, 'loanspeed_days'])[1]
+            p_val = p_mw
             if p_mw < a_mw:
                 significance = 'Significant'
             else:
@@ -199,6 +200,7 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
         else:
             normal = 'Normal'
             p_ttest = stats.ttest(c_loan, loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days'])[1]
+            p_val = p_ttest
             if p_ttest < a_ttest:
                 significance = 'Significant'
             else:
@@ -207,7 +209,9 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
         size_n = "Insufficient size"
         normal = "n/a"
         significance = 'n/a'
-    return [c, c_mean, a_shapiro, a_ttest, a_mw, size_n, normal, significance]
+
+    
+    return [c, c_mean, a_shapiro, a_ttest, a_mw, p_val, size_n, normal, significance]
 
 #run geo_analyzer for each country and construct dataframe 
 big_list = []
@@ -215,10 +219,11 @@ for c in set(loan['COUNTRY_NAME']):
     row = geo_analyzer(c, .01, .01, .01, loan)
     big_list.append(row)
 
-sig_df = pd.DataFrame(big_list, columns = ['country', 'mean days to raise loan', 'alpha_shapiro', 'alpha-ttest', 
-                                      'alpha_mannwhitney', 'size_n', 'normal', 'significance'])
+sig_df = pd.DataFrame(big_list, columns = ['country', 'mean days to raise loan', 
+'alpha_shapiro', 'alpha-ttest', 'alpha_mannwhitney', 'p value', 'size_n', 'normal', 'significance'])
 
 print(sig_df)
+print(np.mean(loan['loanspeed_days']))
 sig_df.to_csv('../data/significance_table_output.csv')
 
 #function to stop EC2 instance at end of script 
