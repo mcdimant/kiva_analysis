@@ -10,6 +10,7 @@ from matplotlib.dates import DateFormatter, date2num
 import seaborn as sns
 import scipy.stats as stats
 import difflib
+import re
 
 s3 = boto3.client('s3')
 
@@ -39,6 +40,9 @@ def datetime_cleanup():
     loan.dropna(subset=['raised_datetime'], inplace=True)
     loan['loan_year'] = [loan['raised_datetime'][x].year for x in loan.index]
 
+datetime_cleanup()
+
+
 def count_borrowers(lst):
     #uses number of items in gender column to gauge number of borrowers
     if type(lst) != float:
@@ -46,24 +50,24 @@ def count_borrowers(lst):
     else:
         return 1
 
-datetime_cleanup()
+
 loan['borrower_n'] = loan['BORROWER_GENDERS'].apply(count_borrowers)
 
 #Function that returns gender state of loan, as male/female/mixed. This is necessary
 #because the 'BORROWER_GENDERS' column is a string with the gender for each borrower
 def gender_clean(lst):
-    if 'male' not in lst:
-        return 'female'
-    elif 'male' & 'female' in lst:
+    if re.findall('\\bmale\\b', str(lst)) and re.findall('\\bfemale\\b', str(list)):
         return 'mixed'
-    else:
+    elif not re.findall('\\bfemale\\b', str(lst)):
         return 'male'
+    else:
+        return 'female'
 
 loan['gender_clean'] = loan['BORROWER_GENDERS'].apply(gender_clean)
 
 #clean up of ppp data:
 
-def ppp_clean():
+def ppp_clean(ppp):
     #Check for spelling difference between country names in loan data and county names in ppp data
     ppp.reset_index(inplace=True)
 
@@ -85,9 +89,12 @@ def ppp_clean():
 
     ppp.set_index('Country Name', inplace=True)
 
-ppp_clean()
+ppp_clean(ppp)
 
-def get_ppp_values():
+def get_ppp_values(ppp, loan):
+
+    ppp.set_index('Country Name', inplace=True)
+
     #creates list with country name and loan year from loan data
     holder = []
     for c,y in zip(loan['COUNTRY_NAME'], loan['loan_year']):
@@ -108,9 +115,11 @@ def get_ppp_values():
         else:
             holder[i].append(ppp.loc[holder[i][0],str(holder[i][1])])
 
-get_ppp_values()
+    return holder
 
-def add_ppp_values():
+holder = get_ppp_values(ppp, holder)
+
+def add_ppp_values(loan, holder):
     #Creates ppp value in loan datafarme
     loan['ppp'] = [holder[c][2] for c in range(len(holder))]
 
@@ -119,6 +128,8 @@ def add_ppp_values():
 
     #creates ppp_val column as product of ppp and loan_amount
     loan['loan_adj'] = loan['ppp'] * loan['LOAN_AMOUNT']
+
+    return loan 
 
 add_ppp_values()
 
@@ -148,25 +159,22 @@ mean_female = np.mean(loanspeed_f)
 
 fig, ax = plt.subplots(figsize=(14,9))
 ax.hist(loanspeed_m, bins=30, alpha=.5, label='Days to raise loan, male')
-ax.axvline(mean_male, alpha=.8, linestyle='--')
-ax.axvline(mean_female, alpha=.8, linestyle='--')
+ax.axvline(mean_male, alpha=.8, linestyle='--', label='male mean')
+ax.axvline(mean_female, alpha=.8, linestyle='--', color='orange', label='female mean')
 ax.hist(loanspeed_f, bins=30, alpha=.5, label='Days to raise loan, female')
+ax.set_xbound(0,100)
 ax.legend(loc='upper right')
 ax.set_xlabel('Days to Raise Loan')
 ax.set_ylabel('Number of Loans')
 ax.set_title('Histogram for Number of Days to Raise Loan, for male and female samples')
-
-plt.savefig('../images/gender_histogram_aws.png')
+plt.savefig('../images/gender_histobox_aws.png')
 
 #A quick visual of the histogram for male and female loanspeed shows that neither
 #appears to be normally distributed, so a Mann-Whitney test is more appropriate 
 #for gauging statistical significance:
 mw_gender = stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 
-print('Because the p-value, {p}, from the Mann-Whitney test is far below the alpha' + 
-'\n' + 'for the Mann-Whitney test, we can reject the null hypothesis that' + 
-'\n' 'gender has no bearing on time to raise loan').format(p = mw_gender[1])
-
+print("P-value {p} is far below alpha level of .05, so we reject null hypo.".format(p=mw_gender[1]))
 #geography
 #Loops through loanspeeds of all countries and compares them against all other global countries
 
