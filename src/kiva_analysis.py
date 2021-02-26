@@ -186,6 +186,7 @@ distribution along with the results of the appropriate significant test
 '''
 def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
     c_loan = loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days']
+    c_mean = np.mean(c_loan)
     if len(c_loan) > 100:
         size_n = 'Sufficient size'
         if stats.shapiro(c_loan)[1] < a_shapiro:
@@ -206,7 +207,7 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
         size_n = "Insufficient size"
         normal = "n/a"
         significance = 'n/a'
-    return [c, a_shapiro, a_ttest, a_mw, size_n, normal, significance]
+    return [c, c_mean, a_shapiro, a_ttest, a_mw, size_n, normal, significance]
 
 #run geo_analyzer for each country and construct dataframe 
 big_list = []
@@ -214,7 +215,7 @@ for c in set(loan['COUNTRY_NAME']):
     row = geo_analyzer(c, .01, .01, .01, loan)
     big_list.append(row)
 
-sig_df = pd.DataFrame(big_list, columns = ['country', 'alpha_shapiro', 'alpha-ttest', 
+sig_df = pd.DataFrame(big_list, columns = ['country', 'mean days to raise loan', 'alpha_shapiro', 'alpha-ttest', 
                                       'alpha_mannwhitney', 'size_n', 'normal', 'significance'])
 
 print(sig_df)
