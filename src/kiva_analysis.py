@@ -131,7 +131,7 @@ def add_ppp_values(loan, holder):
 
     return loan 
 
-add_ppp_values()
+add_ppp_values(loan, holder)
 
 #analysis:
 
