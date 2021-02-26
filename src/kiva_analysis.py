@@ -178,7 +178,6 @@ mw_gender = stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 print("P-value {p} is far below alpha level of .05, so we reject null hypo.".format(p=mw_gender[1]))
 #geography
 
-def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
 '''
 This function takes as in input a country (c), the alpha levels for the shapiro-wilks,
 t-test, and mann whitney test, along with the dataframe itself (loan). For a country's 
