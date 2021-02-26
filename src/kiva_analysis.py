@@ -209,6 +209,7 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
         size_n = "Insufficient size"
         normal = "n/a"
         significance = 'n/a'
+        p_val = np.nan
 
     
     return [c, c_mean, a_shapiro, a_ttest, a_mw, p_val, size_n, normal, significance]
