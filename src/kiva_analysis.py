@@ -212,7 +212,7 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
         p_val = np.nan
 
     
-    return [c, c_mean, a_shapiro, a_ttest, a_mw, p_val, size_n, normal, significance]
+    return [c, c_mean, size_n, a_shapiro, a_ttest, a_mw, p_val, size_n, normal, significance]
 
 #run geo_analyzer for each country and construct dataframe 
 big_list = []
@@ -220,7 +220,7 @@ for c in set(loan['COUNTRY_NAME']):
     row = geo_analyzer(c, .01, .01, .01, loan)
     big_list.append(row)
 
-sig_df = pd.DataFrame(big_list, columns = ['country', 'mean days to raise loan', 
+sig_df = pd.DataFrame(big_list, columns = ['country', 'sample_size', 'mean days to raise loan', 
 'alpha_shapiro', 'alpha-ttest', 'alpha_mannwhitney', 'p value', 'size_n', 'normal', 'significance'])
 
 print(sig_df)
