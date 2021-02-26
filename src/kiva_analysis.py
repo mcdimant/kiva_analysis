@@ -185,14 +185,14 @@ for c in set(loan['COUNTRY_NAME']):
     if len(c_loan) > 100:
         if stats.shapiro(c_loan)[1] < .05:
             print('Time for raising loan in {country} is not normally distributed'.format(country=c))
-            p_mw = stats.mannwhitneyu(c_loan, loan.loc[loan['COUNTRY_NAME']!=c, 'loanspeed_days'])
+            p_mw = stats.mannwhitneyu(c_loan, loan.loc[loan['COUNTRY_NAME']!=c, 'loanspeed_days'])[1]
             if p_mw < .01:
                 print('{c} is statistically significant for time to raise loans'.format(country=c))
             else:
                 print('{c} is not statistically significant for time to raise loans'.format(country=c))
         else:
             print('Time for raising loan in {country} is normally distributed'.format(country=c))
-            p_ttest = stats.ttest(c_loan, loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days'])
+            p_ttest = stats.ttest(c_loan, loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days'])[1]
             if p_ttest < .01:
                 print('{c} is statistically significant for time to raise loans'.format(country=c))
             else:
