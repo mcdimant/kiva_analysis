@@ -178,27 +178,48 @@ mw_gender = stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 print("P-value {p} is far below alpha level of .05, so we reject null hypo.".format(p=mw_gender[1]))
 #geography
 
-#First, we want to test each country's distribution of loanspeed for normality
-#We use a Shapiro-Wilks test to do this 
-for c in set(loan['COUNTRY_NAME']):
+def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
+'''
+This function takes as in input a country (c), the alpha levels for the shapiro-wilks,
+t-test, and mann whitney test, along with the dataframe itself (loan). For a country's 
+given distribution for time to raise loans, the function returns the normality of that
+distribution along with the results of the appropriate significant test
+'''
+def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
     c_loan = loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days']
     if len(c_loan) > 100:
-        if stats.shapiro(c_loan)[1] < .05:
-            print('Time for raising loan in {country} is not normally distributed'.format(country=c))
+        size_n = 'Sufficient size'
+        if stats.shapiro(c_loan)[1] < a_shapiro:
+            normal = 'Not normal'
             p_mw = stats.mannwhitneyu(c_loan, loan.loc[loan['COUNTRY_NAME']!=c, 'loanspeed_days'])[1]
-            if p_mw < .01:
-                print('{country} is statistically significant for time to raise loans'.format(country=c))
+            if p_mw < a_mw:
+                significance = 'Significant'
             else:
-                print('{country} is not statistically significant for time to raise loans'.format(country=c))
+                significance = 'Not signifcant'
         else:
-            print('Time for raising loan in {country} is normally distributed'.format(country=c))
+            normal = 'Normal'
             p_ttest = stats.ttest(c_loan, loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days'])[1]
-            if p_ttest < .01:
-                print('{country} is statistically significant for time to raise loans'.format(country=c))
+            if p_ttest < a_ttest:
+                significance = 'Significant'
             else:
-                print('{country} is not statistically significant for time to raise loans'.format(country=c))
+                significance = "Not significant"
     else:
-        print('Sample size not large enough to test normality (cutoff = 100)')
+        size_n = "Insufficient size"
+        size_n = "Insufficient size"
+        significance = 'n/a'
+    return [c, a_shapiro, a_ttest, a_mw, size_n, normal, significance]
+
+#run geo_analyzer for each country and construct dataframe 
+big_list = []
+for c in set(loan['COUNTRY_NAME']):
+    row = geo_analyzer(c, .01, .01, .01, loan)
+    big_list.append(row)
+
+sig_df = pd.DataFrame(big_list, columns = ['country', 'alpha_shapiro', 'alpha-ttest', 
+                                      'alpha_mannwhitney', 'size_n', 'normal', 'significance'])
+
+print(sig_df)
+
 
 #function to stop EC2 instance at end of script 
 #def stop_EC2_instance(instance_id, region='us-west-2'):
