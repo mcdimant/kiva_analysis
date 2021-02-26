@@ -49,6 +49,18 @@ def count_borrowers(lst):
 datetime_cleanup()
 loan['borrower_n'] = loan['BORROWER_GENDERS'].apply(count_borrowers)
 
+#Function that returns gender state of loan, as male/female/mixed. This is necessary
+#because the 'BORROWER_GENDERS' column is a string with the gender for each borrower
+def gender_clean(lst):
+    if 'male' not in lst:
+        return 'female'
+    elif 'male' & 'female' in lst:
+        return 'mixed'
+    else:
+        return 'male'
+
+loan['gender_clean'] = loan['BORROWER_GENDERS'].apply(gender_clean)
+
 #clean up of ppp data:
 
 def ppp_clean():
@@ -144,6 +156,8 @@ ax.set_xlabel('Days to Raise Loan')
 ax.set_ylabel('Number of Loans')
 ax.set_title('Histogram for Number of Days to Raise Loan, for male and female samples')
 
+plt.savefig('../images/gender_histogram_aws.png')
+
 #A quick visual of the histogram for male and female loanspeed shows that neither
 #appears to be normally distributed, so a Mann-Whitney test is more appropriate 
 #for gauging statistical significance:
@@ -152,8 +166,6 @@ mw_gender = stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 print('Because the p-value, {p}, from the Mann-Whitney test is far below the alpha' + 
 '\n' + 'for the Mann-Whitney test, we can reject the null hypothesis that' + 
 '\n' 'gender has no bearing on time to raise loan').format(p = mw_gender[1])
-
-plt.savefig('../images/gender_histogram_aws.png')
 
 #geography
 #Loops through loanspeeds of all countries and compares them against all other global countries
