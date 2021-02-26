@@ -32,6 +32,9 @@ Besides the removal of na values and changing string representations of time to 
 ## Data Analysis
 While many factors may influence the amount of time it takes for a borrower to raise a loan, this analysis focuses on  **gender**, **sector**, or **geography** have a significant impact on the amount of time it takes for borrowers to raise a loan? 
 
+First, let's look at some basic descriptives of the amount of time it takes to raise money for a loan before stratifying this variable:
+
+![](images/histoboxpng)
 
 
 test of image
