@@ -46,7 +46,7 @@ Here's an image, taken from a 10k row sub-sample of the full data set, plotting 
 
 
 ### Gender
-A brief look at the histogram for how long it took men vs women to raise their loan shows that the distributions do not appear normal. 
+A brief look at the histogram for how long it took men vs women to raise their loan shows that: a) the distributions do not appear normal and b) the means appear quite different.  
 
 ![](gender_histogram.png)
 
