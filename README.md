@@ -10,7 +10,8 @@ This project uses exploratory data analysis (EDA) to understand what factors imp
 ### Loan Data
 Kiva makes available [data snapshots](https://www.kiva.org/build/data-snapshots), archived nightly, featuring historical data on loans in CSV format. This project used data current as of 14 FEB 2021. The loans.csv files takes up 3.45 gigabytes on my local hard disk, and has 1,979,345 rows of data (representing nearly 2 million unique loans).  
 
-Below is a screenshot of a row of raw data. Each record contains 34 fields, that give a rich description of the loan (amount, timing, sector), borrower metadata (location, gender, language), and a text field with the borrower's own description of their aims.  
+Below is a screenshot of a row of raw data. Each record contains 34 fields, that give a rich description of the loan (amount, timing, sector), borrower metadata (location, gender, language), and a text field with the borrower's own description of their aims:
+
 ![](images/kiva_raw_data.png)
 
 
@@ -40,8 +41,17 @@ First, let's look at some basic descriptives of the amount of time it takes to r
 
 ![]
 
-
-
-
-Here's an image, taken from a 10k row sub-sample of the full data set, plotting loan amount against time taken to raise the loan
+Here's an image, taken from a 10k row sub-sample of the full data set, plotting loan amount against time taken to raise the loan. 
 ![](images/scatterplot.png)
+
+
+### Gender
+A brief look at the histogram for how long it took men vs women to raise their loan shows that the distributions do not appear normal. 
+
+![](gender_histogram.png)
+
+Therefore, to test the null hypothesis that gender has no bearing on the amount of time it takes borrowers to raise a loan, I used a Mann-Whitney test, with an alpha level of .05, which returned a p-value of 4.326*10^-66 - so we can confidently reject the null hypothesis. As for interpretation, there may be many reasons why women appear to raise loans more quickly than men. It could be that the majority of donors are women, or that female borrowers, ipso facto, are seen as more personally sympathetic than male borrowers, or that female borrowers describe their loans differently than men in ways that are more engaging to borrowers. Many potential explanations are testable and fertile areas for further research. 
+
+### Geography
+
+
