@@ -220,7 +220,7 @@ for c in set(loan['COUNTRY_NAME']):
     row = geo_analyzer(c, .01, .01, .01, loan)
     big_list.append(row)
 
-sig_df = pd.DataFrame(big_list, columns = ['country', 'sample_size', 'mean days to raise loan', 
+sig_df = pd.DataFrame(big_list, columns = ['country', 'mean days to raise loan', 'sample_size',  
 'alpha_shapiro', 'alpha-ttest', 'alpha_mannwhitney', 'p value', 'size_n', 'normal', 'significance'])
 
 print(sig_df)
