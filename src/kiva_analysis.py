@@ -176,69 +176,14 @@ mw_gender = stats.mannwhitneyu(loanspeed_m, loanspeed_f)
 
 print("P-value {p} is far below alpha level of .05, so we reject null hypo.".format(p=mw_gender[1]))
 #geography
-#Loops through loanspeeds of all countries and compares them against all other global countries
 
-for x in set(loan['COUNTRY_NAME']):
-    if stats.ttest_ind(loan['loanspeed_days'][loan['COUNTRY_NAME']==x], loan['loanspeed_days']
-                       [loan['COUNTRY_NAME']!=x],
-                       alternative='two-sided')[1] < .05:
-        
-        print("Loans in {country}, average of {mean} days to raise loan".format(country=x,
-                                                            mean=np.mean(loan['loanspeed_days']
-                                                                         [loan['COUNTRY_NAME']==x])))
-    else:
-        None
+#First, we want to test each country's distribution of loanspeed for normality
+#We use a Shapiro-Wilks test to do this 
+for c in set(loan['COUNTRY_NAME']):
+    c_loan = loan.loc[loan['COUNTRY_NAME']==c, 'loanspeed_days']
+    if stats.shapiro(c_loan)[1] < .05:
+        print('{country} is not normally distributed'.format(country=c))
 
-#sector analysis
-for x in set(loan['SECTOR_NAME']):
-    if stats.ttest_ind(loan['loanspeed_days'][loan['SECTOR_NAME']==x], loan['loanspeed_days']
-                       [loan['loanspeed_days']!=x],
-                       alternative='two-sided')[1] < .05:
-        
-        print("Loans in {sector}, average of {mean} days to raise loan".format(sector=x,
-                                                            mean=np.mean(loan['loanspeed_days']
-                                                                         [loan['SECTOR_NAME']==x])))
-    else:
-        None
-
-
-#graphs:
-
-#loan_amount vs. loanspeed
-fig, ax = plt.subplots()
-ax.scatter(loan['loanspeed_days'],loan['ppp_val'], alpha=.5)
-plt.show()
-
-#Mean fulfillment speed of loan amounts, sized by n of loan amounts
-loan_mean = loan.groupby(['LOAN_AMOUNT'])['loanspeed_days'].mean()
-loan_count = loan.groupby(['LOAN_AMOUNT'])['LOAN_AMOUNT'].count()
-
-#loan_count
-
-#grouped.index
-fig, ax = plt.subplots(figsize=(13,7))
-ax.scatter(loan_mean.index, loan_mean, s=loan_count, alpha=.5)
-ax.set_xlabel('Loan Amount')
-ax.set_ylabel('Average # of Days to Raise Loan')
-ax.set_title('Scatterplot of Average # of Days to Raise Loan by Loan Size, Sized by Number of Loans')
-
-plt.savefig('../images/scatterplot_aws.png')
-
-#Uses Seaborn to make violin plot of loanspeed by gender and sector
-#First needed to clean gender column of non-binary values 
-loan_gclean = loan[(loan['BORROWER_GENDERS'] == 'male') | (loan['BORROWER_GENDERS'] =='female')] 
-
-fig, ax = plt.subplots(figsize=(14,8))
-sns.set_theme(style="whitegrid")
-ax = sns.violinplot(x='SECTOR_NAME', y="loanspeed_days",
-                    hue="BORROWER_GENDERS", data=loan_gclean, palette="muted", split=True
-                   )
-plt.xticks(rotation=45)
-plt.tight_layout()
-
-plt.savefig('../images/violin_plot.png')
-
-print('script complete!')
 
 #function to stop EC2 instance at end of script 
 #def stop_EC2_instance(instance_id, region='us-west-2'):
