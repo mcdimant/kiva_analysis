@@ -114,6 +114,21 @@ add_ppp_values()
 
 #analysis:
 
+#overview of loanspeed
+
+fig, ax = plt.subplots(2,figsize=(12,8))
+ax[0].hist(loan['loanspeed_days'], bins=200, label='histogram',)
+ax[0].set_title('Histogram of Amount of Time to Raise Loan (Days)')
+ax[0].set_xlabel('Days To Raise Loan')
+ax[0].set_ylabel('Frequency')
+ax[1].boxplot(loan['loanspeed_days'], vert=False)
+ax[1].set_title('Box Plot for Amount of Time to Raise Loan')
+ax[1].set_xlabel('Days to Raise Loan')
+plt.tight_layout()
+plt.show()
+plt.savefig('../images/histobox.png')
+
+
 #gender
 loanspeed_m = loan['loanspeed_days'][loan['BORROWER_GENDERS']=='male']
 loanspeed_f = loan['loanspeed_days'][loan['BORROWER_GENDERS']=='female']
