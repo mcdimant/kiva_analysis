@@ -204,7 +204,7 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
                 significance = "Not significant"
     else:
         size_n = "Insufficient size"
-        size_n = "Insufficient size"
+        normal = "n/a"
         significance = 'n/a'
     return [c, a_shapiro, a_ttest, a_mw, size_n, normal, significance]
 
@@ -218,7 +218,7 @@ sig_df = pd.DataFrame(big_list, columns = ['country', 'alpha_shapiro', 'alpha-tt
                                       'alpha_mannwhitney', 'size_n', 'normal', 'significance'])
 
 print(sig_df)
-
+sig_df.to_csv('../data/significance_table_output.csv')
 
 #function to stop EC2 instance at end of script 
 #def stop_EC2_instance(instance_id, region='us-west-2'):
