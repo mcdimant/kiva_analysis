@@ -212,7 +212,7 @@ def geo_analyzer(c, a_shapiro, a_ttest, a_mw, loan):
         p_val = np.nan
 
     
-    return [c, c_mean, size_n, a_shapiro, a_ttest, a_mw, p_val, size_n, normal, significance]
+    return [c, c_mean, len(c_loan), a_shapiro, a_ttest, a_mw, p_val, size_n, normal, significance]
 
 #run geo_analyzer for each country and construct dataframe 
 big_list = []
