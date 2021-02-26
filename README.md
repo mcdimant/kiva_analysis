@@ -26,7 +26,7 @@ Besides the removal of na values and changing string representations of time to 
 
 * loanspeed_days = calculated as the difference in days (stored as float) between "raised_time" (time when borrower raised 100% of the loan) and "posted_time" (time when loan was posted to Kiva)
 
-* borrower_gender = the original csv had a list of genders for each borrower in the loan; the new column collapses gender to a binary (male,female); loans with mixed gender borrowers were removed. 
+* borrower_gender = the original csv had a list of genders for each borrower in the loan; the new column collapses gender to a trinary (male,female, mixed).
 
 * borrower_n = the number of borrowers comprising the loan 
 
