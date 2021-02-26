@@ -51,7 +51,6 @@ loan['borrower_n'] = loan['BORROWER_GENDERS'].apply(count_borrowers)
 
 #clean up of ppp data:
 
-
 def ppp_clean():
     #Check for spelling difference between country names in loan data and county names in ppp data
     ppp.reset_index(inplace=True)
@@ -67,7 +66,7 @@ def ppp_clean():
             print(match_tup[0])
 
     #Only 8 out of 82 countries are not matches. Most of the remaining difference are due to political
-    #differences in naming, rather than failure to do a fuzzy match. 
+    #differences in naming; it is faster to manually rename this handful: 
     ppp = ppp.rename(index={'west bank and gaza':'palestine', 'congo, rep':'congo', 'myanmar ':'myanmar (burma)',
     'yemen, rep.':'yemen', 'lao pdr':'lao people''s democratic republic',
     'congo, dem. rep.':'the democratic republic of the congo', 'egypt arab rep.': 'egypt'})
@@ -75,7 +74,6 @@ def ppp_clean():
     ppp.set_index('Country Name', inplace=True)
 
 ppp_clean()
-
 
 def get_ppp_values():
     #creates list with country name and loan year from loan data
@@ -114,7 +112,7 @@ add_ppp_values()
 
 #analysis:
 
-#overview of loanspeed
+#overview of loanspeed (amount of time taken to raise loan)
 
 fig, ax = plt.subplots(2,figsize=(12,8))
 ax[0].hist(loan['loanspeed_days'], bins=200, label='histogram',)
@@ -126,25 +124,34 @@ ax[1].set_title('Box Plot for Amount of Time to Raise Loan')
 ax[1].set_xlabel('Days to Raise Loan')
 plt.tight_layout()
 plt.show()
-plt.savefig('../images/histobox.png')
+plt.savefig('../images/loan_histobox.png')
 
 
 #gender
 loanspeed_m = loan['loanspeed_days'][loan['BORROWER_GENDERS']=='male']
 loanspeed_f = loan['loanspeed_days'][loan['BORROWER_GENDERS']=='female']
 
-mx = np.mean(loanspeed_m)
-mf = np.mean(loanspeed_f)
+mean_male = np.mean(loanspeed_m)
+mean_female = np.mean(loanspeed_f)
 
 fig, ax = plt.subplots(figsize=(14,9))
 ax.hist(loanspeed_m, bins=30, alpha=.5, label='Days to raise loan, male')
+ax.axvline(mean_male, alpha=.8, linestyle='--')
+ax.axvline(mean_female, alpha=.8, linestyle='--')
 ax.hist(loanspeed_f, bins=30, alpha=.5, label='Days to raise loan, female')
 ax.legend(loc='upper right')
 ax.set_xlabel('Days to Raise Loan')
 ax.set_ylabel('Number of Loans')
 ax.set_title('Histogram for Number of Days to Raise Loan, for male and female samples')
 
-stats.mannwhitneyu(loanspeed_m, loanspeed_f)
+#A quick visual of the histogram for male and female loanspeed shows that neither
+#appears to be normally distributed, so a Mann-Whitney test is more appropriate 
+#for gauging statistical significance:
+mw_gender = stats.mannwhitneyu(loanspeed_m, loanspeed_f)
+
+print('Because the p-value, {p}, from the Mann-Whitney test is far below the alpha' + 
+'\n' + 'for the Mann-Whitney test, we can reject the null hypothesis that' + 
+'\n' 'gender has no bearing on time to raise loan').format(p = mw_gender[1])
 
 plt.savefig('../images/gender_histogram_aws.png')
 
