@@ -1,0 +1,99 @@
+,country,alpha_shapiro,alpha-ttest,alpha_mannwhitney,size_n,normal,significance
+0,senegal,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+1,afghanistan,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+2,canada,0.01,0.01,0.01,Insufficient size,n/a,n/a
+3,indonesia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+4,lao people's democratic republic,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+5,nigeria,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+6,malawi,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+7,kenya,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+8,pakistan,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+9,timor-leste,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+10,chad,0.01,0.01,0.01,Insufficient size,n/a,n/a
+11,the democratic republic of the congo,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+12,nicaragua,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+13,armenia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+14,zambia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+15,honduras,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+16,israel,0.01,0.01,0.01,Sufficient size,Not normal,Not signifcant
+17,puerto rico,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+18,ukraine,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+19,vietnam,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+20,somalia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+21,samoa,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+22,tajikistan,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+23,ecuador,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+24,gaza,0.01,0.01,0.01,Insufficient size,n/a,n/a
+25,madagascar,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+26,peru,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+27,philippines,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+28,iraq,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+29,palestine,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+30,sri lanka,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+31,egypt,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+32,south sudan,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+33,myanmar (burma),0.01,0.01,0.01,Sufficient size,Not normal,Significant
+34,paraguay,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+35,guatemala,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+36,kyrgyzstan,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+37,burkina faso,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+38,mozambique,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+39,suriname,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+40,cambodia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+41,bhutan,0.01,0.01,0.01,Insufficient size,n/a,n/a
+42,lesotho,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+43,united states,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+44,turkey,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+45,ghana,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+46,nepal,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+47,colombia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+48,saint vincent and the grenadines,0.01,0.01,0.01,Insufficient size,n/a,n/a
+49,benin,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+50,cameroon,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+51,mali,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+52,costa rica,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+53,haiti,0.01,0.01,0.01,Sufficient size,Not normal,Not signifcant
+54,fiji,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+55,botswana,0.01,0.01,0.01,Insufficient size,n/a,n/a
+56,cote d'ivoire,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+57,bolivia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+58,sierra leone,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+59,zimbabwe,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+60,burundi,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+61,guam,0.01,0.01,0.01,Insufficient size,n/a,n/a
+62,uganda,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+63,albania,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+64,el salvador,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+65,mauritania,0.01,0.01,0.01,Insufficient size,n/a,n/a
+66,panama,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+67,papua new guinea,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+68,namibia,0.01,0.01,0.01,Insufficient size,n/a,n/a
+69,vanuatu,0.01,0.01,0.01,Insufficient size,n/a,n/a
+70,bosnia and herzegovina,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+71,togo,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+72,tonga,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+73,south africa,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+74,azerbaijan,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+75,tanzania,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+76,bangladesh,0.01,0.01,0.01,Insufficient size,n/a,n/a
+77,kosovo,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+78,india,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+79,jordan,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+80,yemen,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+81,bulgaria,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+82,congo,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+83,solomon islands,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+84,brazil,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+85,georgia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+86,mexico,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+87,lebanon,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+88,uruguay,0.01,0.01,0.01,Insufficient size,n/a,n/a
+89,moldova,0.01,0.01,0.01,Sufficient size,Not normal,Not signifcant
+90,chile,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+91,liberia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+92,rwanda,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+93,mongolia,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+94,china,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+95,dominican republic,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+96,belize,0.01,0.01,0.01,Sufficient size,Not normal,Significant
+97,thailand,0.01,0.01,0.01,Sufficient size,Not normal,Significant
