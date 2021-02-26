@@ -27,9 +27,12 @@ Besides the removal of na values and changing string representations of time to 
 
 * ppp = the Purchasing Power Parity index for the loan's country and year, based on World Bank Data. If the World Bank dataset did not have the ppp for that exact year, then the closet was found. Countries for which no PPP index existed were removed from the dataset.
 
-* loan_adjusted = the value of the loand after adjusting for ppp. This was equal to the value of the loan * ppp (for that country, in that year)
+* loan_adj = the value of the loand after adjusting for ppp. This was equal to the value of the loan * ppp (for that country, in that year)
 
 ## Data Analysis
+While many factors may influence the amount of time it takes for a borrower to raise a loan, this analysis focuses on  **gender**, **sector**, or **geography** have a significant impact on the amount of time it takes for borrowers to raise a loan? 
+
+
 
 test of image
 ![](images/scatterplot.png)
